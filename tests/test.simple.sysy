@@ -1,0 +1,9 @@
+int main() {
+  int a, b, c;
+  a = 1;
+  b = 2;
+  c = a + b;
+  putint(c);
+  putch(10);
+  return 0;
+}

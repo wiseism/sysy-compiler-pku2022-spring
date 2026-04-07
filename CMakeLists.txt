@@ -47,3 +47,7 @@ target_link_libraries(compiler
     dl
 )
 
+enable_testing()
+
+add_subdirectory(tests)
+

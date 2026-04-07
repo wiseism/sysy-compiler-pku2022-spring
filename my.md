@@ -10,3 +10,8 @@ cd /opt/lib && git clone --single-branch --depth 1 https://github.com/pku-minic/
 
 测试用例
 https://github.com/pku-minic/open-test-cases
+git clone https://gitlab.eduxiji.net/csc1/nscscc/compiler2021.git
+
+git clone --single-branch --depth 1 https://github.com/pku-minic/sysy-runtime-lib.git
+which riscv64-linux-gnu-gcc || sudo apt-get update && sudo apt-get install -y gcc-riscv64-linux-gnu qemu-user
+sudo apt-get install -y libc6-dev-riscv64-cross
