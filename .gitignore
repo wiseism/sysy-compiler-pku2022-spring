@@ -1,5 +1,8 @@
 *.DS_Store
 /build
+cmake-build-*/
 /test
 *.koopa
 hello.*
+.idea
+*.iml
