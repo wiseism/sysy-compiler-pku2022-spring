@@ -13,11 +13,45 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y flex bison cmake make clang
+
+    - name: Install Rust
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        source $HOME/.cargo/env
+        rustc --version
+        cargo --version
+
+    - name: Clone and build koopa
+      run: |
+        cd /tmp
+        git clone --single-branch --depth 1 https://github.com/pku-minic/koopa.git
+        cd koopa
+        source $HOME/.cargo/env
+        CARGO_PROFILE_RELEASE_PANIC=abort cargo build -r -p libkoopa
+
+    - name: Install koopa to /usr/local
+      run: |
+        cd /tmp/koopa
+        sudo mkdir -p /usr/local/lib/native
+        sudo cp target/release/libkoopa.a /usr/local/lib/native/
+        sudo mkdir -p /usr/local/include
+        sudo cp -R libkoopa/include/* /usr/local/include/
+
+    - name: Build with CMake
+      run: |
+        export CDE_INCLUDE_PATH=/usr/local/include
+        export CDE_LIBRARY_PATH=/usr/local/lib
+        mkdir -p build
+        cd build
+        cmake ..
+        make
+
+    - name: Build with Make
+      run: |
+        export CDE_INCLUDE_PATH=/usr/local/include
+        export CDE_LIBRARY_PATH=/usr/local/lib
+        make clean
+        make
