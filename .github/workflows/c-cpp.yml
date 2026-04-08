@@ -49,6 +49,13 @@ jobs:
         cmake ..
         make
 
+    - name: Run tests with CTest
+      run: |
+        export CDE_INCLUDE_PATH=/usr/local/include
+        export CDE_LIBRARY_PATH=/usr/local/lib
+        cd build
+        ctest --verbose
+
     - name: Build with Make
       run: |
         export CDE_INCLUDE_PATH=/usr/local/include
